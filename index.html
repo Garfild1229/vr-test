@@ -58,7 +58,7 @@
     <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('down')" ontouchend="stopMove()">Rotate Down</button>
   </div>
 
-  <div class="version">Version: 12</div>
+  <div class="version">Version: 13</div>
   <div class="position">Position: X: 0, Y: 0, Z: 0</div>
   <div class="rotation">Rotation: X: 0, Y: 0, Z: 0</div>
 
@@ -152,23 +152,23 @@
 
     function rotateCamera(direction) {
       var camera = document.querySelector('#camera');
-      var rotation = camera.getAttribute('rotation');
+      var rotation = camera.object3D.rotation;
 
       switch (direction) {
         case 'left':
-          rotation.y += 5;
+          rotation.y += THREE.MathUtils.degToRad(5);
           break;
         case 'right':
-          rotation.y -= 5;
+          rotation.y -= THREE.MathUtils.degToRad(5);
           break;
         case 'up':
-          rotation.x += 5;
+          rotation.x += THREE.MathUtils.degToRad(5);
           break;
         case 'down':
-          rotation.x -= 5;
+          rotation.x -= THREE.MathUtils.degToRad(5);
           break;
       }
-      camera.setAttribute('rotation', rotation);
+      camera.object3D.rotation.set(rotation.x, rotation.y, rotation.z);
       updateRotationDisplay(rotation);
     }
 
@@ -177,7 +177,7 @@
     }
 
     function updateRotationDisplay(rotation) {
-      document.querySelector('.rotation').innerText = `Rotation: X: ${rotation.x.toFixed(2)}, Y: ${rotation.y.toFixed(2)}, Z: ${rotation.z.toFixed(2)}`;
+      document.querySelector('.rotation').innerText = `Rotation: X: ${THREE.MathUtils.radToDeg(rotation.x).toFixed(2)}, Y: ${THREE.MathUtils.radToDeg(rotation.y).toFixed(2)}, Z: ${THREE.MathUtils.radToDeg(rotation.z).toFixed(2)}`;
     }
 
     AFRAME.registerComponent('teleport-to', {
@@ -195,7 +195,7 @@
       tick: function () {
         var camera = document.querySelector('#camera');
         var position = camera.object3D.position;
-        var rotation = camera.getAttribute('rotation');
+        var rotation = camera.object3D.rotation;
         updatePositionDisplay(position);
         updateRotationDisplay(rotation);
       }
@@ -204,7 +204,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       var camera = document.querySelector('#camera');
       var position = camera.object3D.position;
-      var rotation = camera.getAttribute('rotation');
+      var rotation = camera.object3D.rotation;
       updatePositionDisplay(position);
       updateRotationDisplay(rotation);
     });
