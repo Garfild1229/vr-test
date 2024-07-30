@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Damaged Helmet Navigation Example</title>
-  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
   <style>
     .nav-buttons {
       position: fixed;
@@ -58,7 +58,7 @@
     <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('down')" ontouchend="stopMove()">Rotate Down</button>
   </div>
 
-  <div class="version">Version: 8</div>
+  <div class="version">Version: 9</div>
   <div class="position">Position: X: 0, Y: 0, Z: 0</div>
   <div class="rotation">Rotation: X: 0, Y: 0, Z: 0</div>
 
@@ -83,7 +83,7 @@
       <a-text value="pok4_wejscie" align="center" position="0 0.5 0" color="blue" side="double" look-at="[camera]"></a-text>
     </a-entity>
     <a-entity geometry="primitive: sphere; radius: 0.2" material="color: green" position="0.14 2.96 -1.11" teleport-to>
-      <a-text value="pok3_wejscie" align="center" position="0 0.5 0" color="green" side="double" look-at="[camera]"></a-entity>
+      <a-text value="pok3_wejscie" align="center" position="0 0.5 0" color="green" side="double" look-at="[camera]"></a-text>
     </a-entity>
     <a-entity geometry="primitive: sphere; radius: 0.2" material="color: yellow" position="-0.54 3.10 -1.23" teleport-to>
       <a-text value="pok2_wejscie" align="center" position="0 0.5 0" color="yellow" side="double" look-at="[camera]"></a-text>
@@ -152,23 +152,23 @@
 
     function rotateCamera(direction) {
       var camera = document.querySelector('#camera');
-      var rotation = camera.getAttribute('rotation');
+      var rotation = camera.object3D.rotation;
 
       switch (direction) {
         case 'left':
-          rotation.y += 5;
+          rotation.y += THREE.MathUtils.degToRad(5);
           break;
         case 'right':
-          rotation.y -= 5;
+          rotation.y -= THREE.MathUtils.degToRad(5);
           break;
         case 'up':
-          rotation.x += 5;
+          rotation.x += THREE.MathUtils.degToRad(5);
           break;
         case 'down':
-          rotation.x -= 5;
+          rotation.x -= THREE.MathUtils.degToRad(5);
           break;
       }
-      camera.setAttribute('rotation', rotation);
+      camera.object3D.rotation.set(rotation.x, rotation.y, rotation.z);
       updateRotationDisplay(rotation);
     }
 
@@ -177,7 +177,7 @@
     }
 
     function updateRotationDisplay(rotation) {
-      document.querySelector('.rotation').innerText = `Rotation: X: ${rotation.x.toFixed(2)}, Y: ${rotation.y.toFixed(2)}, Z: ${rotation.z.toFixed(2)}`;
+      document.querySelector('.rotation').innerText = `Rotation: X: ${THREE.MathUtils.radToDeg(rotation.x).toFixed(2)}, Y: ${THREE.MathUtils.radToDeg(rotation.y).toFixed(2)}, Z: ${THREE.MathUtils.radToDeg(rotation.z).toFixed(2)}`;
     }
 
     AFRAME.registerComponent('teleport-to', {
@@ -197,7 +197,7 @@
         var camera = document.querySelector('#camera');
         this.el.addEventListener('componentchanged', function (evt) {
           if (evt.detail.name === 'rotation') {
-            var rotation = camera.getAttribute('rotation');
+            var rotation = camera.object3D.rotation;
             updateRotationDisplay(rotation);
           }
           if (evt.detail.name === 'position') {
@@ -214,7 +214,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       var camera = document.querySelector('#camera');
       var position = camera.object3D.position;
-      var rotation = camera.getAttribute('rotation');
+      var rotation = camera.object3D.rotation;
       updatePositionDisplay(position);
       updateRotationDisplay(rotation);
     });
