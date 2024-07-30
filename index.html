@@ -2,61 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VR Presentation</title>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <title>Simple GitHub Pages Test</title>
 </head>
 <body>
-  <a-scene>
-    <!-- Dodaj swoje modele glTF -->
-    <a-assets>
-      <a-asset-item id="my-model" src="DamagedHelmet.glb"></a-asset-item>
-    </a-assets>
-
-    <!-- Umieść model w scenie -->
-    <a-entity gltf-model="#my-model" position="0 1.6 -2"></a-entity>
-
-    <!-- Dodaj punkty teleportacji -->
-    <a-entity id="teleport-point-1" geometry="primitive: sphere; radius: 0.5" material="color: red"
-              position="2 0 -5" teleport-to="position: 2 0 -5"></a-entity>
-
-    <a-entity id="teleport-point-2" geometry="primitive: sphere; radius: 0.5" material="color: green"
-              position="-2 0 -5" teleport-to="position: -2 0 -5"></a-entity>
-
-    <!-- Dodaj przycisk otwierania drzwi -->
-    <a-entity id="open-door-button" geometry="primitive: plane; height: 0.5; width: 1"
-              material="color: blue" position="0 1 -3" text="value: Open Door; color: white"></a-entity>
-
-    <!-- Ustawienie kamery z automatycznym obracaniem i płynnym poruszaniem -->
-    <a-entity id="camera" camera look-controls wasd-controls>
-      <a-cursor></a-cursor>
-    </a-entity>
-  </a-scene>
-
-  <script>
-    AFRAME.registerComponent('teleport-to', {
-      schema: {
-        position: {type: 'vec3'}
-      },
-      init: function () {
-        var data = this.data;
-        var el = this.el;
-
-        el.addEventListener('click', function () {
-          var camera = document.querySelector('#camera');
-          camera.setAttribute('animation', {
-            property: 'position',
-            to: `${data.position.x} ${data.position.y} ${data.position.z}`,
-            dur: 1000,
-            easing: 'easeInOutQuad'
-          });
-        });
-      }
-    });
-
-    // Ustawienia dla punktów teleportacji
-    document.querySelector('#teleport-point-1').setAttribute('teleport-to', 'position: 2 0 -5');
-    document.querySelector('#teleport-point-2').setAttribute('teleport-to', 'position: -2 0 -5');
-
-    // Dodanie logiki do przycisku otwierania drzwi
-    document.querySelector('#open-door-button').addEventListener('click', function () {
-      // Znajdź drzwi w scenie i uruchom ich animację (zak
+  <h1>Hello, World!</h1>
+  <p>This is a simple test page for GitHub Pages.</p>
+</body>
+</html>
