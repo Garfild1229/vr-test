@@ -73,19 +73,29 @@
 
     function moveCamera(direction) {
       var camera = document.querySelector('#camera');
-      var position = camera.getAttribute('position');
+      var position = camera.object3D.position;
+      var directionVector = new THREE.Vector3();
+
       switch (direction) {
         case 'forward':
-          position.z -= 1.5;
+          camera.object3D.getWorldDirection(directionVector);
+          directionVector.multiplyScalar(-1.5);
+          position.add(directionVector);
           break;
         case 'backward':
-          position.z += 1.5;
+          camera.object3D.getWorldDirection(directionVector);
+          directionVector.multiplyScalar(1.5);
+          position.add(directionVector);
           break;
         case 'left':
-          position.x -= 1.5;
+          camera.object3D.getWorldDirection(directionVector);
+          directionVector.cross(camera.object3D.up).multiplyScalar(1.5);
+          position.add(directionVector);
           break;
         case 'right':
-          position.x += 1.5;
+          camera.object3D.getWorldDirection(directionVector);
+          directionVector.cross(camera.object3D.up).multiplyScalar(-1.5);
+          position.add(directionVector);
           break;
         case 'up':
           position.y += 1.5;
@@ -94,7 +104,7 @@
           position.y -= 1.5;
           break;
       }
-      camera.setAttribute('position', position);
+      camera.object3D.position.set(position.x, position.y, position.z);
     }
 
     function rotateCamera(direction) {
