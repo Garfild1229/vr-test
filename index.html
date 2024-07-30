@@ -4,8 +4,31 @@
   <meta charset="utf-8">
   <title>Damaged Helmet Navigation Example</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <style>
+    .nav-buttons {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-buttons button {
+      margin: 5px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
+  <div class="nav-buttons">
+    <button onclick="moveCamera('forward')">Forward</button>
+    <button onclick="moveCamera('backward')">Backward</button>
+    <button onclick="moveCamera('left')">Left</button>
+    <button onclick="moveCamera('right')">Right</button>
+    <button onclick="moveCamera('up')">Up</button>
+    <button onclick="moveCamera('down')">Down</button>
+  </div>
+
   <a-scene>
     <a-assets>
       <a-asset-item id="helmet-model" src="DamagedHelmet.glb"></a-asset-item>
@@ -18,21 +41,34 @@
     <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 0">
       <a-entity cursor="fuse: false; rayOrigin: mouse" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat"></a-entity>
     </a-entity>
+  </a-scene>
 
-    <!-- Przycisk do poruszania się w przód -->
-    <a-entity geometry="primitive: plane; height: 0.5; width: 1" material="color: blue" position="0 2 -4" text="value: Forward; color: white" class="nav-button" nav-direction="forward"></a-entity>
-    
-    <!-- Przycisk do poruszania się w tył -->
-    <a-entity geometry="primitive: plane; height: 0.5; width: 1" material="color: blue" position="0 1.5 -4" text="value: Backward; color: white" class="nav-button" nav-direction="backward"></a-entity>
-    
-    <!-- Przycisk do poruszania się w lewo -->
-    <a-entity geometry="primitive: plane; height: 0.5; width: 1" material="color: blue" position="-1 1.75 -4" text="value: Left; color: white" class="nav-button" nav-direction="left"></a-entity>
-    
-    <!-- Przycisk do poruszania się w prawo -->
-    <a-entity geometry="primitive: plane; height: 0.5; width: 1" material="color: blue" position="1 1.75 -4" text="value: Right; color: white" class="nav-button" nav-direction="right"></a-entity>
-    
-    <!-- Przycisk do poruszania się w górę -->
-    <a-entity geometry="primitive: plane; height: 0.5; width: 1" material="color: blue" position="0 2.5 -4" text="value: Up; color: white" class="nav-button" nav-direction="up"></a-entity>
-    
-    <!-- Przycisk do poruszania się w dół -->
-    <a-entity geometry="primitive: plane; height: 0.5; width: 1" material="color: blue" position="0 1 -4" text="value: Down
+  <script>
+    function moveCamera(direction) {
+      var camera = document.querySelector('#camera');
+      var position = camera.getAttribute('position');
+      switch (direction) {
+        case 'forward':
+          position.z -= 1;
+          break;
+        case 'backward':
+          position.z += 1;
+          break;
+        case 'left':
+          position.x -= 1;
+          break;
+        case 'right':
+          position.x += 1;
+          break;
+        case 'up':
+          position.y += 1;
+          break;
+        case 'down':
+          position.y -= 1;
+          break;
+      }
+      camera.setAttribute('position', position);
+    }
+  </script>
+</body>
+</html>
