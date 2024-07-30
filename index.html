@@ -47,8 +47,11 @@
     <!-- Umieść model "Damaged Helmet" w scenie -->
     <a-entity gltf-model="#helmet-model" scale="2 2 2" position="0 0 -5"></a-entity>
 
+    <!-- Światło kierunkowe symulujące słońce -->
+    <a-light type="directional" intensity="1" position="0 10 0" rotation="-45 0 0" castShadow="true"></a-light>
+
     <!-- Kamera z kontrolkami ruchu i obrotu -->
-    <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 100">
+    <a-entity id="camera" camera wasd-controls look-controls position="200 1.6 0" rotation="0 180 0">
       <a-entity cursor="fuse: false; rayOrigin: mouse" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat"></a-entity>
     </a-entity>
   </a-scene>
