@@ -73,42 +73,42 @@
       var position = camera.getAttribute('position');
       switch (direction) {
         case 'forward':
-          position.z -= 0.1;
+          position.z -= 0.7;
           break;
         case 'backward':
-          position.z += 0.1;
+          position.z += 0.7;
           break;
         case 'left':
-          position.x -= 0.1;
+          position.x -= 0.7;
           break;
         case 'right':
-          position.x += 0.1;
+          position.x += 0.7;
           break;
         case 'up':
-          position.y += 0.1;
+          position.y += 0.7;
           break;
         case 'down':
-          position.y -= 0.1;
+          position.y -= 0.7;
           break;
       }
       camera.setAttribute('position', position);
     }
 
     function rotateCamera(direction) {
-      var camera = document.querySelector('#camera');
+      var camera = document.querySelector('[camera]');
       var rotation = camera.getAttribute('rotation');
       switch (direction) {
         case 'left':
-          rotation.y += 1;
+          rotation.y += 5;
           break;
         case 'right':
-          rotation.y -= 1;
+          rotation.y -= 5;
           break;
         case 'up':
-          rotation.x += 1;
+          rotation.x += 5;
           break;
         case 'down':
-          rotation.x -= 1;
+          rotation.x -= 5;
           break;
       }
       camera.setAttribute('rotation', rotation);
