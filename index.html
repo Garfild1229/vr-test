@@ -73,22 +73,22 @@
       var position = camera.getAttribute('position');
       switch (direction) {
         case 'forward':
-          position.z -= 0.7;
+          position.z -= 1.5;
           break;
         case 'backward':
-          position.z += 0.7;
+          position.z += 1.5;
           break;
         case 'left':
-          position.x -= 0.7;
+          position.x -= 1.5;
           break;
         case 'right':
-          position.x += 0.7;
+          position.x += 1.5;
           break;
         case 'up':
-          position.y += 0.7;
+          position.y += 1.5;
           break;
         case 'down':
-          position.y -= 0.7;
+          position.y -= 1.5;
           break;
       }
       camera.setAttribute('position', position);
