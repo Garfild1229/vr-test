@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Damaged Helmet Navigation Example</title>
-  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js VR Example</title>
   <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    .info {
+      position: fixed;
+      left: 10px;
+      top: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
     .nav-buttons {
       position: fixed;
       top: 10px;
@@ -23,191 +35,124 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    .version, .position, .rotation {
-      position: fixed;
-      left: 10px;
-      font-size: 16px;
-      background-color: #000;
-      color: #fff;
-      padding: 5px;
-      border-radius: 4px;
-      z-index: 1000;
-    }
-    .version {
-      bottom: 10px;
-    }
-    .position {
-      top: 10px;
-    }
-    .rotation {
-      top: 50px;
-    }
   </style>
 </head>
 <body>
-  <div class="nav-buttons">
-    <button onmousedown="startMove('forward')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('forward')" ontouchend="stopMove()">Forward</button>
-    <button onmousedown="startMove('backward')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('backward')" ontouchend="stopMove()">Backward</button>
-    <button onmousedown="startMove('left')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('left')" ontouchend="stopMove()">Left</button>
-    <button onmousedown="startMove('right')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('right')" ontouchend="stopMove()">Right</button>
-    <button onmousedown="startMove('up')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('up')" ontouchend="stopMove()">Up</button>
-    <button onmousedown="startMove('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('down')" ontouchend="stopMove()">Down</button>
-    <button onmousedown="startRotate('left')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('left')" ontouchend="stopMove()">Rotate Left</button>
-    <button onmousedown="startRotate('right')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('right')" ontouchend="stopMove()">Rotate Right</button>
-    <button onmousedown="startRotate('up')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('up')" ontouchend="stopMove()">Rotate Up</button>
-    <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('down')" ontouchend="stopMove()">Rotate Down</button>
+  <div class="info">
+    <div id="position">Position: X: 0, Y: 0, Z: 0</div>
+    <div id="rotation">Rotation: X: 0, Y: 0, Z: 0</div>
   </div>
-
-  <div class="version">Version: 14</div>
-  <div class="position">Position: X: 0, Y: 0, Z: 0</div>
-  <div class="rotation">Rotation: X: 0, Y: 0, Z: 0</div>
-
-  <a-scene>
-    <a-assets>
-      <a-asset-item id="helmet-model" src="DamagedHelmet.glb"></a-asset-item>
-    </a-assets>
-
-    <!-- Umieść model "Damaged Helmet" w scenie -->
-    <a-entity gltf-model="#helmet-model" scale="2 2 2" position="0 0 -5"></a-entity>
-
-    <!-- Światło kierunkowe symulujące słońce -->
-    <a-light type="directional" intensity="0.5" position="5 10 10" rotation="-45 -45 0" castShadow="true"></a-light>
-    <!-- Światło otaczające -->
-    <a-light type="ambient" intensity="0.5" color="#ffffff"></a-light>
-
-    <!-- Punkty teleportacji -->
-    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: red" position="-0.36 3.47 -20.74" teleport-to>
-      <a-text value="wejscie" align="center" position="0 0.5 0" color="red" side="double" look-at="#camera"></a-text>
-    </a-entity>
-    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: blue" position="0.06 2.96 -8.42" teleport-to>
-      <a-text value="pok4_wejscie" align="center" position="0 0.5 0" color="blue" side="double" look-at="#camera"></a-text>
-    </a-entity>
-    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: green" position="0.14 2.96 -1.11" teleport-to>
-      <a-text value="pok3_wejscie" align="center" position="0 0.5 0" color="green" side="double" look-at="#camera"></a-text>
-    </a-entity>
-    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: yellow" position="-0.54 3.10 -1.23" teleport-to>
-      <a-text value="pok2_wejscie" align="center" position="0 0.5 0" color="yellow" side="double" look-at="#camera"></a-text>
-    </a-entity>
-    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: purple" position="0.04 2.62 -8.45" teleport-to>
-      <a-text value="pok1_wejscie" align="center" position="0 0.5 0" color="purple" side="double" look-at="#camera"></a-text>
-    </a-entity>
-
-    <!-- Kamera z kontrolkami ruchu i obrotu -->
-    <a-entity id="camera" camera wasd-controls look-controls position="-1.12 15.56 -40.58" rotation="-18.79 174.06 0">
-      <a-entity cursor="fuse: false; rayOrigin: mouse" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat"></a-entity>
-    </a-entity>
-  </a-scene>
-
+  <div class="nav-buttons">
+    <button onclick="move('forward')">Forward</button>
+    <button onclick="move('backward')">Backward</button>
+    <button onclick="move('left')">Left</button>
+    <button onclick="move('right')">Right</button>
+    <button onclick="move('up')">Up</button>
+    <button onclick="move('down')">Down</button>
+    <button onclick="rotate('left')">Rotate Left</button>
+    <button onclick="rotate('right')">Rotate Right</button>
+    <button onclick="rotate('up')">Rotate Up</button>
+    <button onclick="rotate('down')">Rotate Down</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/webxr/VRButton.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js"></script>
   <script>
-    let moveInterval;
+    let scene, camera, renderer, controls;
+    let cameraPosition = { x: -1.12, y: 15.56, z: -40.58 };
+    let cameraRotation = { x: THREE.Math.degToRad(-18.79), y: THREE.Math.degToRad(174.06), z: 0 };
 
-    function startMove(direction) {
-      moveInterval = setInterval(() => moveCamera(direction), 50);
+    function init() {
+      scene = new THREE.Scene();
+
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
+      camera.rotation.set(cameraRotation.x, cameraRotation.y, cameraRotation.z);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.xr.enabled = true;
+      document.body.appendChild(renderer.domElement);
+      document.body.appendChild(VRButton.createButton(renderer));
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.target.set(0, 1.6, 0);
+
+      const light = new THREE.DirectionalLight(0xffffff, 0.5);
+      light.position.set(1, 1, 1).normalize();
+      scene.add(light);
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const loader = new THREE.GLTFLoader();
+      loader.load('DamagedHelmet.glb', function(gltf) {
+        const model = gltf.scene;
+        model.scale.set(2, 2, 2);
+        model.position.set(0, 0, -5);
+        scene.add(model);
+      });
+
+      animate();
     }
 
-    function startRotate(direction) {
-      moveInterval = setInterval(() => rotateCamera(direction), 50);
+    function animate() {
+      renderer.setAnimationLoop(render);
     }
 
-    function stopMove() {
-      clearInterval(moveInterval);
+    function render() {
+      updateInfo();
+      controls.update();
+      renderer.render(scene, camera);
     }
 
-    function moveCamera(direction) {
-      var camera = document.querySelector('#camera');
-      var position = camera.object3D.position;
-      var directionVector = new THREE.Vector3();
+    function updateInfo() {
+      document.getElementById('position').innerText = `Position: X: ${camera.position.x.toFixed(2)}, Y: ${camera.position.y.toFixed(2)}, Z: ${camera.position.z.toFixed(2)}`;
+      document.getElementById('rotation').innerText = `Rotation: X: ${(THREE.Math.radToDeg(camera.rotation.x)).toFixed(2)}, Y: ${(THREE.Math.radToDeg(camera.rotation.y)).toFixed(2)}, Z: ${(THREE.Math.radToDeg(camera.rotation.z)).toFixed(2)}`;
+    }
 
+    function move(direction) {
       switch (direction) {
         case 'forward':
-          camera.object3D.getWorldDirection(directionVector);
-          directionVector.multiplyScalar(-1.5);
-          position.add(directionVector);
+          camera.position.z -= 1;
           break;
         case 'backward':
-          camera.object3D.getWorldDirection(directionVector);
-          directionVector.multiplyScalar(1.5);
-          position.add(directionVector);
+          camera.position.z += 1;
           break;
         case 'left':
-          camera.object3D.getWorldDirection(directionVector);
-          directionVector.cross(camera.object3D.up).multiplyScalar(1.5);
-          position.add(directionVector);
+          camera.position.x -= 1;
           break;
         case 'right':
-          camera.object3D.getWorldDirection(directionVector);
-          directionVector.cross(camera.object3D.up).multiplyScalar(-1.5);
-          position.add(directionVector);
+          camera.position.x += 1;
           break;
         case 'up':
-          position.y += 1.5;
+          camera.position.y += 1;
           break;
         case 'down':
-          position.y -= 1.5;
+          camera.position.y -= 1;
           break;
       }
-      camera.object3D.position.set(position.x, position.y, position.z);
-      updatePositionDisplay(position);
     }
 
-    function rotateCamera(direction) {
-      var camera = document.querySelector('#camera');
-      var rotation = camera.object3D.rotation;
-
+    function rotate(direction) {
       switch (direction) {
         case 'left':
-          rotation.y += THREE.MathUtils.degToRad(5);
+          camera.rotation.y += THREE.Math.degToRad(5);
           break;
         case 'right':
-          rotation.y -= THREE.MathUtils.degToRad(5);
+          camera.rotation.y -= THREE.Math.degToRad(5);
           break;
         case 'up':
-          rotation.x += THREE.MathUtils.degToRad(5);
+          camera.rotation.x += THREE.Math.degToRad(5);
           break;
         case 'down':
-          rotation.x -= THREE.MathUtils.degToRad(5);
+          camera.rotation.x -= THREE.Math.degToRad(5);
           break;
       }
-      camera.object3D.rotation.set(rotation.x, rotation.y, rotation.z);
-      updateRotationDisplay(rotation);
     }
 
-    function updatePositionDisplay(position) {
-      document.querySelector('.position').innerText = `Position: X: ${position.x.toFixed(2)}, Y: ${position.y.toFixed(2)}, Z: ${position.z.toFixed(2)}`;
-    }
-
-    function updateRotationDisplay(rotation) {
-      document.querySelector('.rotation').innerText = `Rotation: X: ${THREE.MathUtils.radToDeg(rotation.x).toFixed(2)}, Y: ${THREE.MathUtils.radToDeg(rotation.y).toFixed(2)}, Z: ${THREE.MathUtils.radToDeg(rotation.z).toFixed(2)}`;
-    }
-
-    AFRAME.registerComponent('teleport-to', {
-      init: function () {
-        this.el.addEventListener('click', () => {
-          var camera = document.querySelector('#camera');
-          var position = this.el.getAttribute('position');
-          camera.setAttribute('position', position);
-          updatePositionDisplay(position);
-        });
-      }
-    });
-
-    AFRAME.registerComponent('update-display', {
-      tick: function () {
-        var camera = document.querySelector('#camera');
-        var position = camera.object3D.position;
-        var rotation = camera.object3D.rotation;
-        updatePositionDisplay(position);
-        updateRotationDisplay(rotation);
-      }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      var camera = document.querySelector('#camera');
-      var position = camera.object3D.position;
-      var rotation = camera.object3D.rotation;
-      updatePositionDisplay(position);
-      updateRotationDisplay(rotation);
-    });
+    init();
   </script>
 </body>
 </html>
