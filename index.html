@@ -23,9 +23,8 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    .version {
+    .version, .position, .rotation {
       position: fixed;
-      bottom: 10px;
       left: 10px;
       font-size: 16px;
       background-color: #000;
@@ -33,6 +32,15 @@
       padding: 5px;
       border-radius: 4px;
       z-index: 1000;
+    }
+    .version {
+      bottom: 10px;
+    }
+    .position {
+      top: 10px;
+    }
+    .rotation {
+      top: 50px;
     }
   </style>
 </head>
@@ -50,7 +58,9 @@
     <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('down')" ontouchend="stopMove()">Rotate Down</button>
   </div>
 
-  <div class="version">Version: 2</div>
+  <div class="version">Version: 3</div>
+  <div class="position">Position: X: 0, Y: 0, Z: 0</div>
+  <div class="rotation">Rotation: X: 0, Y: 0, Z: 0</div>
 
   <a-scene>
     <a-assets>
@@ -120,6 +130,7 @@
           break;
       }
       camera.object3D.position.set(position.x, position.y, position.z);
+      updatePositionDisplay(position);
     }
 
     function rotateCamera(direction) {
@@ -140,7 +151,25 @@
           break;
       }
       camera.setAttribute('rotation', rotation);
+      updateRotationDisplay(rotation);
     }
+
+    function updatePositionDisplay(position) {
+      document.querySelector('.position').innerText = `Position: X: ${position.x.toFixed(2)}, Y: ${position.y.toFixed(2)}, Z: ${position.z.toFixed(2)}`;
+    }
+
+    function updateRotationDisplay(rotation) {
+      document.querySelector('.rotation').innerText = `Rotation: X: ${rotation.x.toFixed(2)}, Y: ${rotation.y.toFixed(2)}, Z: ${rotation.z.toFixed(2)}`;
+    }
+
+    // Initial display update
+    document.addEventListener('DOMContentLoaded', () => {
+      var camera = document.querySelector('#camera');
+      var position = camera.object3D.position;
+      var rotation = camera.getAttribute('rotation');
+      updatePositionDisplay(position);
+      updateRotationDisplay(rotation);
+    });
   </script>
 </body>
 </html>
