@@ -27,16 +27,16 @@
 </head>
 <body>
   <div class="nav-buttons">
-    <button onclick="moveCamera('forward')">Forward</button>
-    <button onclick="moveCamera('backward')">Backward</button>
-    <button onclick="moveCamera('left')">Left</button>
-    <button onclick="moveCamera('right')">Right</button>
-    <button onclick="moveCamera('up')">Up</button>
-    <button onclick="moveCamera('down')">Down</button>
-    <button onclick="rotateCamera('left')">Rotate Left</button>
-    <button onclick="rotateCamera('right')">Rotate Right</button>
-    <button onclick="rotateCamera('up')">Rotate Up</button>
-    <button onclick="rotateCamera('down')">Rotate Down</button>
+    <button onmousedown="startMove('forward')" onmouseup="stopMove()" onmouseleave="stopMove()">Forward</button>
+    <button onmousedown="startMove('backward')" onmouseup="stopMove()" onmouseleave="stopMove()">Backward</button>
+    <button onmousedown="startMove('left')" onmouseup="stopMove()" onmouseleave="stopMove()">Left</button>
+    <button onmousedown="startMove('right')" onmouseup="stopMove()" onmouseleave="stopMove()">Right</button>
+    <button onmousedown="startMove('up')" onmouseup="stopMove()" onmouseleave="stopMove()">Up</button>
+    <button onmousedown="startMove('down')" onmouseup="stopMove()" onmouseleave="stopMove()">Down</button>
+    <button onmousedown="startRotate('left')" onmouseup="stopMove()" onmouseleave="stopMove()">Rotate Left</button>
+    <button onmousedown="startRotate('right')" onmouseup="stopMove()" onmouseleave="stopMove()">Rotate Right</button>
+    <button onmousedown="startRotate('up')" onmouseup="stopMove()" onmouseleave="stopMove()">Rotate Up</button>
+    <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()">Rotate Down</button>
   </div>
 
   <a-scene>
@@ -48,33 +48,47 @@
     <a-entity gltf-model="#helmet-model" scale="2 2 2" position="0 0 -5"></a-entity>
 
     <!-- Kamera z kontrolkami ruchu i obrotu -->
-    <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 -100">
+    <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 100">
       <a-entity cursor="fuse: false; rayOrigin: mouse" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat"></a-entity>
     </a-entity>
   </a-scene>
 
   <script>
+    let moveInterval;
+
+    function startMove(direction) {
+      moveInterval = setInterval(() => moveCamera(direction), 50);
+    }
+
+    function startRotate(direction) {
+      moveInterval = setInterval(() => rotateCamera(direction), 50);
+    }
+
+    function stopMove() {
+      clearInterval(moveInterval);
+    }
+
     function moveCamera(direction) {
       var camera = document.querySelector('#camera');
       var position = camera.getAttribute('position');
       switch (direction) {
         case 'forward':
-          position.z -= 1;
+          position.z -= 0.1;
           break;
         case 'backward':
-          position.z += 1;
+          position.z += 0.1;
           break;
         case 'left':
-          position.x -= 1;
+          position.x -= 0.1;
           break;
         case 'right':
-          position.x += 1;
+          position.x += 0.1;
           break;
         case 'up':
-          position.y += 1;
+          position.y += 0.1;
           break;
         case 'down':
-          position.y -= 1;
+          position.y -= 0.1;
           break;
       }
       camera.setAttribute('position', position);
@@ -85,16 +99,16 @@
       var rotation = camera.getAttribute('rotation');
       switch (direction) {
         case 'left':
-          rotation.y += 10;
+          rotation.y += 1;
           break;
         case 'right':
-          rotation.y -= 10;
+          rotation.y -= 1;
           break;
         case 'up':
-          rotation.x += 10;
+          rotation.x += 1;
           break;
         case 'down':
-          rotation.x -= 10;
+          rotation.x -= 1;
           break;
       }
       camera.setAttribute('rotation', rotation);
