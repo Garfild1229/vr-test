@@ -33,6 +33,10 @@
     <button onclick="moveCamera('right')">Right</button>
     <button onclick="moveCamera('up')">Up</button>
     <button onclick="moveCamera('down')">Down</button>
+    <button onclick="rotateCamera('left')">Rotate Left</button>
+    <button onclick="rotateCamera('right')">Rotate Right</button>
+    <button onclick="rotateCamera('up')">Rotate Up</button>
+    <button onclick="rotateCamera('down')">Rotate Down</button>
   </div>
 
   <a-scene>
@@ -44,7 +48,7 @@
     <a-entity gltf-model="#helmet-model" scale="2 2 2" position="0 0 -5"></a-entity>
 
     <!-- Kamera z kontrolkami ruchu i obrotu -->
-    <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 0">
+    <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 -100">
       <a-entity cursor="fuse: false; rayOrigin: mouse" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat"></a-entity>
     </a-entity>
   </a-scene>
@@ -74,6 +78,26 @@
           break;
       }
       camera.setAttribute('position', position);
+    }
+
+    function rotateCamera(direction) {
+      var camera = document.querySelector('#camera');
+      var rotation = camera.getAttribute('rotation');
+      switch (direction) {
+        case 'left':
+          rotation.y += 10;
+          break;
+        case 'right':
+          rotation.y -= 10;
+          break;
+        case 'up':
+          rotation.x += 10;
+          break;
+        case 'down':
+          rotation.x -= 10;
+          break;
+      }
+      camera.setAttribute('rotation', rotation);
     }
   </script>
 </body>
