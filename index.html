@@ -58,7 +58,7 @@
     <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('down')" ontouchend="stopMove()">Rotate Down</button>
   </div>
 
-  <div class="version">Version: 3</div>
+  <div class="version">Version: 4</div>
   <div class="position">Position: X: 0, Y: 0, Z: 0</div>
   <div class="rotation">Rotation: X: 0, Y: 0, Z: 0</div>
 
@@ -75,8 +75,15 @@
     <!-- Światło otaczające -->
     <a-light type="ambient" intensity="0.5" color="#ffffff"></a-light>
 
+    <!-- Punkty teleportacji -->
+    <a-entity geometry="primitive: sphere; radius: 0.5" material="color: red" position="-0.36 3.47 -20.74" teleport-to></a-entity>
+    <a-entity geometry="primitive: sphere; radius: 0.5" material="color: blue" position="0.06 2.96 -8.42" teleport-to></a-entity>
+    <a-entity geometry="primitive: sphere; radius: 0.5" material="color: green" position="0.14 2.96 -1.11" teleport-to></a-entity>
+    <a-entity geometry="primitive: sphere; radius: 0.5" material="color: yellow" position="-0.54 3.10 -1.23" teleport-to></a-entity>
+    <a-entity geometry="primitive: sphere; radius: 0.5" material="color: purple" position="0.04 2.62 -8.45" teleport-to></a-entity>
+
     <!-- Kamera z kontrolkami ruchu i obrotu -->
-    <a-entity id="camera" camera wasd-controls look-controls position="200 1.6 0" rotation="0 180 0">
+    <a-entity id="camera" camera wasd-controls look-controls position="-1.12 15.56 -40.58" rotation="0 180 0">
       <a-entity cursor="fuse: false; rayOrigin: mouse" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat"></a-entity>
     </a-entity>
   </a-scene>
@@ -135,22 +142,23 @@
 
     function rotateCamera(direction) {
       var camera = document.querySelector('#camera');
-      var rotation = camera.getAttribute('rotation');
+      var rotation = camera.object3D.rotation;
+
       switch (direction) {
         case 'left':
-          rotation.y += 5;
+          rotation.y += THREE.Math.degToRad(5);
           break;
         case 'right':
-          rotation.y -= 5;
+          rotation.y -= THREE.Math.degToRad(5);
           break;
         case 'up':
-          rotation.x += 5;
+          rotation.x += THREE.Math.degToRad(5);
           break;
         case 'down':
-          rotation.x -= 5;
+          rotation.x -= THREE.Math.degToRad(5);
           break;
       }
-      camera.setAttribute('rotation', rotation);
+      camera.object3D.rotation.set(rotation.x, rotation.y, rotation.z);
       updateRotationDisplay(rotation);
     }
 
@@ -159,14 +167,25 @@
     }
 
     function updateRotationDisplay(rotation) {
-      document.querySelector('.rotation').innerText = `Rotation: X: ${rotation.x.toFixed(2)}, Y: ${rotation.y.toFixed(2)}, Z: ${rotation.z.toFixed(2)}`;
+      document.querySelector('.rotation').innerText = `Rotation: X: ${THREE.Math.radToDeg(rotation.x).toFixed(2)}, Y: ${THREE.Math.radToDeg(rotation.y).toFixed(2)}, Z: ${THREE.Math.radToDeg(rotation.z).toFixed(2)}`;
     }
+
+    AFRAME.registerComponent('teleport-to', {
+      init: function () {
+        this.el.addEventListener('click', () => {
+          var camera = document.querySelector('#camera');
+          var position = this.el.getAttribute('position');
+          camera.setAttribute('position', position);
+          updatePositionDisplay(position);
+        });
+      }
+    });
 
     // Initial display update
     document.addEventListener('DOMContentLoaded', () => {
       var camera = document.querySelector('#camera');
       var position = camera.object3D.position;
-      var rotation = camera.getAttribute('rotation');
+      var rotation = camera.object3D.rotation;
       updatePositionDisplay(position);
       updateRotationDisplay(rotation);
     });
