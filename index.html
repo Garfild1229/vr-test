@@ -27,16 +27,16 @@
 </head>
 <body>
   <div class="nav-buttons">
-    <button onmousedown="startMove('forward')" onmouseup="stopMove()" onmouseleave="stopMove()">Forward</button>
-    <button onmousedown="startMove('backward')" onmouseup="stopMove()" onmouseleave="stopMove()">Backward</button>
-    <button onmousedown="startMove('left')" onmouseup="stopMove()" onmouseleave="stopMove()">Left</button>
-    <button onmousedown="startMove('right')" onmouseup="stopMove()" onmouseleave="stopMove()">Right</button>
-    <button onmousedown="startMove('up')" onmouseup="stopMove()" onmouseleave="stopMove()">Up</button>
-    <button onmousedown="startMove('down')" onmouseup="stopMove()" onmouseleave="stopMove()">Down</button>
-    <button onmousedown="startRotate('left')" onmouseup="stopMove()" onmouseleave="stopMove()">Rotate Left</button>
-    <button onmousedown="startRotate('right')" onmouseup="stopMove()" onmouseleave="stopMove()">Rotate Right</button>
-    <button onmousedown="startRotate('up')" onmouseup="stopMove()" onmouseleave="stopMove()">Rotate Up</button>
-    <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()">Rotate Down</button>
+    <button onmousedown="startMove('forward')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('forward')" ontouchend="stopMove()">Forward</button>
+    <button onmousedown="startMove('backward')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('backward')" ontouchend="stopMove()">Backward</button>
+    <button onmousedown="startMove('left')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('left')" ontouchend="stopMove()">Left</button>
+    <button onmousedown="startMove('right')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('right')" ontouchend="stopMove()">Right</button>
+    <button onmousedown="startMove('up')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('up')" ontouchend="stopMove()">Up</button>
+    <button onmousedown="startMove('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startMove('down')" ontouchend="stopMove()">Down</button>
+    <button onmousedown="startRotate('left')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('left')" ontouchend="stopMove()">Rotate Left</button>
+    <button onmousedown="startRotate('right')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('right')" ontouchend="stopMove()">Rotate Right</button>
+    <button onmousedown="startRotate('up')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('up')" ontouchend="stopMove()">Rotate Up</button>
+    <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('down')" ontouchend="stopMove()">Rotate Down</button>
   </div>
 
   <a-scene>
@@ -95,7 +95,7 @@
     }
 
     function rotateCamera(direction) {
-      var camera = document.querySelector('[camera]');
+      var camera = document.querySelector('#camera');
       var rotation = camera.getAttribute('rotation');
       switch (direction) {
         case 'left':
