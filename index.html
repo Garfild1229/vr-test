@@ -58,9 +58,9 @@
     <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('down')" ontouchend="stopMove()">Rotate Down</button>
   </div>
 
-  <div class="version">Version: 2</div>
-  <div class="position">Position: X: 0, Y: 0, Z: 0</div>
-  <div class="rotation">Rotation: X: 0, Y: 0, Z: 0</div>
+  <div class="version">Version: 3</div>
+  <div class="position">Position: X: 0.73, Y: 9.01, Z: -34.23</div>
+  <div class="rotation">Rotation: X: -20.28, Y: 182.22, Z: 0.00</div>
 
   <a-scene>
     <a-assets>
@@ -75,8 +75,25 @@
     <!-- Światło otaczające -->
     <a-light type="ambient" intensity="0.5" color="#ffffff"></a-light>
 
+    <!-- Punkty teleportacji -->
+    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: red" position="-0.36 3.47 -20.74" teleport-to>
+      <a-text value="wejscie" align="center" position="0 0.5 0" color="red" side="double" look-at="[camera]"></a-text>
+    </a-entity>
+    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: blue" position="0.06 2.96 -8.42" teleport-to>
+      <a-text value="pok4_wejscie" align="center" position="0 0.5 0" color="blue" side="double" look-at="[camera]"></a-text>
+    </a-entity>
+    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: green" position="0.14 2.96 -1.11" teleport-to>
+      <a-text value="pok3_wejscie" align="center" position="0 0.5 0" color="green" side="double" look-at="[camera]"></a-text>
+    </a-entity>
+    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: yellow" position="-0.54 3.10 -1.23" teleport-to>
+      <a-text value="pok2_wejscie" align="center" position="0 0.5 0" color="yellow" side="double" look-at="[camera]"></a-text>
+    </a-entity>
+    <a-entity geometry="primitive: sphere; radius: 0.2" material="color: purple" position="0.04 2.62 -8.45" teleport-to>
+      <a-text value="pok1_wejscie" align="center" position="0 0.5 0" color="purple" side="double" look-at="[camera]"></a-text>
+    </a-entity>
+
     <!-- Kamera z kontrolkami ruchu i obrotu -->
-    <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 100" rotation="0 180 0" update-display>
+    <a-entity id="camera" camera wasd-controls look-controls position="0.73 9.01 -34.23" rotation="-20.28 182.22 0.00" update-display>
       <a-entity cursor="fuse: false; rayOrigin: mouse" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat"></a-entity>
     </a-entity>
   </a-scene>
