@@ -58,7 +58,7 @@
     <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('down')" ontouchend="stopMove()">Rotate Down</button>
   </div>
 
-  <div class="version">Version: 7</div>
+  <div class="version">Version: 8</div>
   <div class="position">Position: X: 0.73, Y: 9.01, Z: -34.23</div>
   <div class="rotation">Rotation: X: 0.00, Y: 0.00, Z: 0.00</div>
 
@@ -213,10 +213,9 @@
 
     function disableGyroControls() {
       var camera = document.querySelector('#camera');
-      if (AFRAME.utils.device.isMobile()) {
-        camera.removeAttribute('look-controls');
-      } else {
-        camera.setAttribute('look-controls', 'enabled: true');
+      var lookControls = camera.components['look-controls'];
+      if (lookControls) {
+        lookControls.touchEnabled = false;
       }
     }
 
