@@ -58,9 +58,9 @@
     <button onmousedown="startRotate('down')" onmouseup="stopMove()" onmouseleave="stopMove()" ontouchstart="startRotate('down')" ontouchend="stopMove()">Rotate Down</button>
   </div>
 
-  <div class="version">Version: 4</div>
+  <div class="version">Version: 5</div>
   <div class="position">Position: X: 0.73, Y: 9.01, Z: -34.23</div>
-  <div class="rotation">Rotation: X: 0.00, Y: -180.00, Z: 0.00</div>
+  <div class="rotation">Rotation: X: 0.00, Y: 0.00, Z: 0.00</div>
 
   <a-scene>
     <a-assets>
@@ -179,10 +179,12 @@
       document.querySelector('.rotation').innerText = `Rotation: X: ${THREE.MathUtils.radToDeg(rotation.x).toFixed(2)}, Y: ${THREE.MathUtils.radToDeg(rotation.y).toFixed(2)}, Z: ${THREE.MathUtils.radToDeg(rotation.z).toFixed(2)}`;
     }
 
-    function setInitialRotation() {
+    function setInitialPositionAndRotation() {
       var camera = document.querySelector('#camera');
+      camera.setAttribute('position', '0.73 9.01 -34.23');
       var lookControls = camera.components['look-controls'];
       lookControls.yawObject.rotation.y = THREE.MathUtils.degToRad(-180);
+      updatePositionDisplay(camera.object3D.position);
       updateRotationDisplay(camera.object3D.rotation);
     }
 
@@ -213,7 +215,7 @@
       var rotation = camera.object3D.rotation;
       updatePositionDisplay(position);
       updateRotationDisplay(rotation);
-      setInitialRotation();
+      setTimeout(setInitialPositionAndRotation, 100); // Opóźnienie, aby upewnić się, że wszystko jest załadowane
     });
   </script>
 </body>
